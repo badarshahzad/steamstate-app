@@ -15,10 +15,7 @@ class App extends Component {
           </p>
           
           <NewComponent name="Taylor 1" />
-          <NewComponent name="Taylor 2" />
-          <NewComponent name="Taylor 3" />
-          <NewComponent name="Taylor 4 " />
-          <NewComponent name="Taylor 5" />
+     
 
           <ToDoApp />
           <a
