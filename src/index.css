@@ -12,3 +12,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.title{
+  color:  #aaaaaa!important;
+}
+.titleBold{
+  color:  #aaaaaa!important;
+  font-weight: bold !important;
+}
+.tableColor{
+  color:  #1a1a1a!important;
+}
