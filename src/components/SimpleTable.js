@@ -11,6 +11,8 @@ import styled from "styled-components";
 import { style } from "../styles/styles";
 import SmallLineChart from './SmallLineChart';
 
+
+
 const styles = {
   root: {
     width: "100%",
