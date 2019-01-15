@@ -21,6 +21,7 @@ import SimpleTable from "./SimpleTable";
 import styled from "styled-components";
 import { Title } from "../cssComponents/ComponenitWithCSS";
 import TopGamesTable from "./TopGamesTable";
+import TopRecordsTable from "./TopRecordsTable";
 
 const drawerWidth = 240;
 
@@ -123,11 +124,12 @@ class Dashboard extends React.Component {
         <CssBaseline />
         <AppBar
           position="absolute"
-          className={classNames(
-            classes.appBar,
-            this.state.open && classes.appBarShift
-          )}
-          style={{ backgroundColor: "#111111" }}
+          className={classNames(classes.appBar)}
+          style={{
+            backgroundColor: "#111111",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
         >
           <Toolbar
             disableGutters={!this.state.open}
@@ -165,14 +167,12 @@ class Dashboard extends React.Component {
               <Typography
                 component="h1"
                 variant="h6"
-                // color="#888888"
                 noWrap
                 className={classes.title}
                 style={{
                   color: "#ffffff",
                   fontFamily: "Exo, sans-serif",
                   fontSize: "24px",
-                  // fontWeight: "bold",
                   letterSpacing: "2px",
                   lineHeight: "32px",
                   textAlign: "start"
@@ -180,44 +180,32 @@ class Dashboard extends React.Component {
               >
                 CHARTS
               </Typography>
+              <Typography
+                component="h1"
+                variant="h6"
+                noWrap
+                className={classes.title}
+                style={{
+                  color: "#aaaaaa",
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: "16px",
+                  letterSpacing: "normal",
+                  lineHeight: "32px",
+                  marginInlineStart: "32px",
+                  fontStyle: "italic"
+                }}
+              >
+                An ongoing analysis of Steam's concurrent players.
+              </Typography>
             </div>
           </Toolbar>
         </AppBar>
-        {/* <Drawer
-          variant="permanent"
-          style={{backgroundColor:"#1a1a1a"}}
-          classes={{
-            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-          }}
-          open={this.state.open}
-          
-          
-        >
-          <div className={classes.toolbarIcon} style={{backgroundColor:"#1a1a1a"}} >
-            <IconButton onClick={this.handleDrawerClose} style={{color:"white"}}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider style={{backgroundColor:"#1a1a1a"}}/>
-          <List style={{backgroundColor:"#1a1a1a", color:"#aaaaaa"}}>{mainListItems}</List>
-          <Divider style={{backgroundColor:"#1a1a1a"}}/>
-          <List 
-          
-          style={{flex:1, flexDirection:'column',backgroundColor:"#1a1a1a", color:"#aaaaaa"}}>{secondaryListItems}</List>
-        </Drawer> */}
+
         <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Typography
-            variant="h4"
-            gutterBottom
-            component="h2"
-            className="title"
-          >
-            Orders
-          </Typography>
-          <Typography component="div" className={classes.chartContainer}>
-            <SimpleLineChart />
-          </Typography>
+          <div
+            className={classes.appBarSpacer}
+            style={{ justifyContent: "center" }}
+          />
 
           {/* Trending Games Table */}
           <Typography
@@ -225,6 +213,14 @@ class Dashboard extends React.Component {
             gutterBottom
             component="h2"
             className="title"
+            style={{
+              color: "#888888",
+              fontFamily: "Exo, sans-serif",
+              fontSize: "24px",
+              letterSpacing: "2px",
+              lineHeight: "32px",
+              textAlign: "start"
+            }}
           >
             Trending
           </Typography>
@@ -234,16 +230,46 @@ class Dashboard extends React.Component {
 
           {/* Top Games by current palyers */}
 
-          <div style={{ flex: 1, flexDirection: "column", marginTop: 92 }}>
+          <div style={{ flex: 1, flexDirection: "column", marginTop: 112 }}>
             <Typography
               variant="h4"
               gutterBottom
               component="h2"
               className="title"
+              style={{
+                color: "#888888",
+                fontFamily: "Exo, sans-serif",
+                fontSize: "24px",
+                letterSpacing: "2px",
+                lineHeight: "32px",
+                textAlign: "start"
+              }}
             >
               Top Games By Current Players
             </Typography>
             <TopGamesTable />
+          </div>
+
+          {/* Top Records */}
+
+          <div style={{ flex: 1, flexDirection: "column", marginTop: 32 }}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              component="h2"
+              className="title"
+              style={{
+                color: "#888888",
+                fontFamily: "Exo, sans-serif",
+                fontSize: "24px",
+                letterSpacing: "2px",
+                lineHeight: "32px",
+                textAlign: "start"
+              }}
+            >
+              Top Records
+            </Typography>
+            <TopRecordsTable />
           </div>
         </main>
       </div>
