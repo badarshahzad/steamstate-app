@@ -83,7 +83,7 @@ class SimpleTable extends React.Component {
                         fontWeight: "bold"
                       }}
                     >
-                      {n.change_24_hr}
+                      {n.change_24_hr.toFixed(1) + "%"}
                     </TableCell>
                     <TableCell
                       align="center"
@@ -95,58 +95,13 @@ class SimpleTable extends React.Component {
                       }}
                     >
                       {/* {n.last48Hours} */}
-                      {/* <SmallLineChart data={n.change_48_hr} /> */}
+                      <SmallLineChart data={n.change_48_hr} />
                     </TableCell>
                     <TableCell
                       align="center"
                       style={{ color: "#aaaaaa", borderColor: "#111111" }}
                     >
                       {n.current_players}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-
-            {data == null &&
-              dataSample.map(n => {
-                return (
-                  <TableRow key={n.id}>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align="left"
-                      style={{ color: "white", borderColor: "#111111" }}
-                    >
-                      {n.name}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        color: "#48a71f",
-                        borderColor: "#111111",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      {n.last24Hours.toFixed(2)}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        width: 200,
-                        height: 70,
-                        color: "#48a71f",
-                        borderColor: "#111111"
-                      }}
-                    >
-                      {/* {n.last48Hours} */}
-                      //TODO: last 48 hours game dta
-                      <SmallLineChart />
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{ color: "#aaaaaa", borderColor: "#111111" }}
-                    >
-                      {n.currentPlayer}
                     </TableCell>
                   </TableRow>
                 );
