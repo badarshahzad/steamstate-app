@@ -10,7 +10,6 @@ import Paper from "@material-ui/core/Paper";
 import styled from "styled-components";
 import { style } from "../styles/styles";
 import SmallLineChart from "./SmallLineChart";
-import ReactPaginate from "react-paginate";
 
 const styles = {
   root: {
@@ -40,148 +39,13 @@ const dataSample = [
 class SimpleTable extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      items: null,
-      moreItems: null,
-      pageCount: 2,
-      pagginationVisible: null,
-      tableData: null
-    };
-
-    this.onReceive = this.onReceive.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
   }
-
-  onReceive(data) {
-    if (!data) {
-      const table_Data = null;
-      // Made the card items and Pagination logic to spread data in pages
-      console.log("JSON objec is: " + JSON.stringify(data));
-      if (data != null) {
-        table_Data =
-          data != null &&
-          data.map((n, index) => {
-            return (
-              <TableRow key={index}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  align="left"
-                  style={{ color: "white", borderColor: "#111111" }}
-                >
-                  {n.game_title}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#48a71f",
-                    borderColor: "#111111",
-                    fontWeight: "bold"
-                  }}
-                >
-                  {n.change_24_hr.toFixed(1) + "%"}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    width: 200,
-                    height: 70,
-                    color: "#48a71f",
-                    borderColor: "#111111"
-                  }}
-                >
-                  {/* {n.last48Hours} */}
-                  <SmallLineChart data={n.change_48_hr} />
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ color: "#aaaaaa", borderColor: "#111111" }}
-                >
-                  {n.current_players}
-                </TableCell>
-              </TableRow>
-            );
-          });
-      }
-
-      if (data.length <= 10) {
-        this.setState({
-          tableData: table_Data,
-          pagginationVisible: false,
-          pageCount: Math.ceil(data.length / 10)
-        });
-      }
-
-      if (data.length >= 10) {
-        this.setState({
-          moreItems: table_Data,
-          pagginationVisible: true,
-          pageCount: Math.ceil(data.length / 10)
-        });
-
-        this.handlePageClick({ selected: 0 }); // Will show only first 10 elements
-      } else {
-        this.setState({
-          tableData: null,
-          moreItems: null,
-          pagginationVisible: false,
-          pageCount: 0
-        });
-      }
-    }
-  }
-
-  handlePageClick(data) {
-    // Pagination logic for click
-    var index = data.selected;
-    var limit = index + 1 + "0"; // converted 0 to 1 and make it 10
-    console.log("Limit is : " + limit);
-
-    index === 0 ? (index = 0) : (index = index + 10); // start from next time 10 index
-
-    const table_Data_rows = [];
-    var count = 10;
-    for (
-      var a = index, b = 1;
-      b < this.state.moreItems.length || b === count;
-      a++, b++
-    ) {
-      table_Data_rows.push(this.state.moreItems[a]);
-      console.log("Index is:" + b);
-
-      if (b === 10) {
-        this.setState({ tableData: table_Data_rows });
-        return;
-      }
-    }
-  }
-
-  componentDidMount() {
-    console.log("The data is : " + JSON.stringify(this.props.data));
-    this.onReceive(this.props.data);
-  }
-
   render() {
-    // const { classes, data } = this.props;
+    const { classes, data } = this.props;
 
     return (
-      <Paper className={this.props.classes.root}>
-        <ReactPaginate
-          previousLabel={"<"}
-          nextLabel={">"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={this.state.pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageClick}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
-        />
-
-        <Table className={this.props.classes.table}>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
           <TableHead>
             <TableRow>
               <TableCell className="titleBold" align="left">
@@ -198,7 +62,96 @@ class SimpleTable extends React.Component {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{this.state.tableData}</TableBody>
+          <TableBody>
+            {data != null &&
+              data.map((n, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="left"
+                      style={{ color: "white", borderColor: "#111111" }}
+                    >
+                      {n.game_title}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#48a71f",
+                        borderColor: "#111111",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      {n.change_24_hr}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        width: 200,
+                        height: 70,
+                        color: "#48a71f",
+                        borderColor: "#111111"
+                      }}
+                    >
+                      {/* {n.last48Hours} */}
+                      {/* <SmallLineChart data={n.change_48_hr} /> */}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{ color: "#aaaaaa", borderColor: "#111111" }}
+                    >
+                      {n.current_players}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+
+            {data == null &&
+              dataSample.map(n => {
+                return (
+                  <TableRow key={n.id}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="left"
+                      style={{ color: "white", borderColor: "#111111" }}
+                    >
+                      {n.name}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: "#48a71f",
+                        borderColor: "#111111",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      {n.last24Hours.toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        width: 200,
+                        height: 70,
+                        color: "#48a71f",
+                        borderColor: "#111111"
+                      }}
+                    >
+                      {/* {n.last48Hours} */}
+                      //TODO: last 48 hours game dta
+                      <SmallLineChart />
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{ color: "#aaaaaa", borderColor: "#111111" }}
+                    >
+                      {n.currentPlayer}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
         </Table>
       </Paper>
     );
@@ -206,8 +159,7 @@ class SimpleTable extends React.Component {
 }
 
 SimpleTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-  data: PropTypes.object
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(SimpleTable);
