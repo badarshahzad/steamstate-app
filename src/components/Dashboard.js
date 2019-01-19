@@ -3,25 +3,15 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./ListItem";
-import SimpleLineChart from "./SimpleLineChart";
-import SmallLineChart from "./SmallLineChart";
-import SimpleTable from "./SimpleTable";
-import styled from "styled-components";
-import { Title } from "../cssComponents/ComponenitWithCSS";
+import TrendingTable from "./TrendingTable";
 import TopGamesTable from "./TopGamesTable";
 import TopRecordsTable from "./TopRecordsTable";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -103,9 +93,15 @@ const styles = theme => ({
   }
 });
 
+var data_trend;
+var data_top;
+var data_top_record;
 class Dashboard extends React.Component {
   state = {
-    open: true
+    open: true,
+    dataTrending: null,
+    dataTopGames: null,
+    dataTopRecords: null
   };
 
   handleDrawerOpen = () => {
@@ -115,6 +111,59 @@ class Dashboard extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
+  componentDidMount() {
+    /**
+     * GET Trending Games
+     */
+    axios
+      .get("/api/v1/gamestats/trending")
+      .then(res => {
+        // data_trend = res.data.trending.reverse(); // sorted by highest current Player
+        data_trend = res.data.trending;
+
+        // console.log("Data which received is: " + JSON.stringify(data_trend));
+      })
+      .then(() => {
+        this.setState({ dataTrending: data_trend });
+      })
+      .catch(err => console.log("Error no data come:" + err));
+
+    /**
+     * GET TOP Games
+     */
+    axios
+      .get("/api/v1/gamestats/topgames")
+      .then(res => {
+        data_top = res.data.topgames;
+
+        // console.log(
+        //   "Data which received is for top games: " + JSON.stringify(data_top)
+        // );
+      })
+      .then(() => {
+        this.setState({ dataTopGames: data_top });
+      })
+      .catch(err => console.log("Error no data come:" + err));
+
+    /**
+     * GET Top Records Games
+     */
+    axios
+      .get("/api/v1/gamestats/toprecords")
+      .then(res => {
+        data_top_record = res.data.top_records;
+
+        // console.log(
+        //   "Data which received is for top record games: " +
+        //     JSON.stringify(data_top_record)
+        // );
+      })
+      .then(() => {
+        this.setState({ dataTopRecords: data_top_record });
+      })
+      .catch(err => console.log("Error no data come:" + err));
+  }
 
   render() {
     const { classes } = this.props;
@@ -225,7 +274,9 @@ class Dashboard extends React.Component {
             Trending
           </Typography>
           <div className={classes.tableContainer}>
-            <SimpleTable />
+            {/* {console.log("Data in set states is: " + this.state.dataTrending)} */}
+            {/* <TrendingTable /> */}
+            <TrendingTable data={this.state.dataTrending} />
           </div>
 
           {/* Top Games by current palyers */}
@@ -247,7 +298,8 @@ class Dashboard extends React.Component {
             >
               Top Games By Current Players
             </Typography>
-            <TopGamesTable />
+            {/* <TopGamesTable /> */}
+            <TopGamesTable data={this.state.dataTopGames} />
           </div>
 
           {/* Top Records */}
@@ -269,7 +321,7 @@ class Dashboard extends React.Component {
             >
               Top Records
             </Typography>
-            <TopRecordsTable />
+            <TopRecordsTable data={this.state.dataTopRecords} />
           </div>
         </main>
       </div>

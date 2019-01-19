@@ -41,12 +41,13 @@ const data = [
   { name: "Thu", Hours_48: 4780 }
 ];
 
-function SmallBarChart() {
+function SmallBarChart(props) {
+  const newData = props.data.slice(0, 30);
   return (
     <ResponsiveContainer className="title">
-      <BarChart width={150} height={40} data={data}>
+      <BarChart width={150} height={40} data={newData}>
         <Tooltip />
-        <Bar dataKey="Hours_48" fill="#587A2F" />
+        <Bar dataKey="peak_player" fill="#587A2F" />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -58,7 +58,7 @@ const data = [
 ];
 
 function SimpleTable(props) {
-  const { classes } = props;
+  const { classes, data } = props;
 
   return (
     <Paper className={classes.root}>
@@ -80,48 +80,49 @@ function SimpleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(n => {
-            return (
-              <TableRow key={n.id}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  align="left"
-                  style={{ color: "white", borderColor: "#111111" }}
-                >
-                  {n.name}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#48a71f",
-                    borderColor: "#111111",
-                    fontWeight: "bold"
-                  }}
-                >
-                  {n.peekPlayers}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ color: "#aaaaaa", borderColor: "#111111" }}
-                >
-                  {n.time}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    width: 300,
-                    height: 70,
-                    color: "#48a71f",
-                    borderColor: "#111111"
-                  }}
-                >
-                  {/* Last 48 Hours data */}
-                  <SmallLineChart />
-                </TableCell>
-              </TableRow>
-            );
-          })}
+          {data != null &&
+            data.map((n, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    align="left"
+                    style={{ color: "white", borderColor: "#111111" }}
+                  >
+                    {n.game_title}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      color: "#48a71f",
+                      borderColor: "#111111",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {n.peak_players}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{ color: "#aaaaaa", borderColor: "#111111" }}
+                  >
+                    {new Date(n.date.toString()).toDateString()}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      width: 300,
+                      height: 70,
+                      color: "#48a71f",
+                      borderColor: "#111111"
+                    }}
+                  >
+                    {/* Last 48 Hours data */}
+                    <SmallLineChart data={n.change_48_hr} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </Paper>

@@ -58,7 +58,7 @@ const data = [
 ];
 
 function SimpleTable(props) {
-  const { classes } = props;
+  const { classes, data } = props;
 
   return (
     <Paper className={classes.root}>
@@ -77,63 +77,69 @@ function SimpleTable(props) {
             <TableCell className="titleBold" align="center">
               Last 30 days
             </TableCell>
-            <TableCell className="titleBold" align="center">
+            {/* <TableCell className="titleBold" align="center">
               Peak Players
-            </TableCell>
+            </TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(n => {
-            return (
-              <TableRow key={n.id}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  align="left"
-                  style={{ color: "white", borderColor: "#111111" }}
-                >
-                  {n.id}
-                </TableCell>
+          {data != null &&
+            data.map((n, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    align="left"
+                    style={{ color: "white", borderColor: "#111111" }}
+                  >
+                    {++index}
+                  </TableCell>
 
-                <TableCell
-                  component="th"
-                  scope="row"
-                  align="left"
-                  style={{ color: "white", borderColor: "#111111" }}
-                >
-                  {n.name}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    color: "#48a71f",
-                    borderColor: "#111111",
-                    fontWeight: "bold"
-                  }}
-                >
-                  {n.currentPlayers}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{
-                    width: 300,
-                    height: 70,
-                    color: "#48a71f",
-                    borderColor: "#111111"
-                  }}
-                >
-                  {/* {n.last48Hours} */}
-                  <SmallBarChart />
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ color: "#aaaaaa", borderColor: "#111111" }}
-                >
-                  {n.peakPlayers}
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    align="left"
+                    style={{
+                      color: "white",
+                      borderColor: "#111111",
+                      width: 300
+                    }}
+                  >
+                    {n.game_title}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      color: "#48a71f",
+                      borderColor: "#111111",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {n.current_players}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      width: 250,
+                      height: 70,
+                      color: "#48a71f",
+                      borderColor: "#111111"
+                    }}
+                  >
+                    {/* {n.last48Hours} */}
+                    <SmallBarChart data={n.last_30_days} />
+                  </TableCell>
+                  {/* <TableCell
+                    align="center"
+                    style={{ color: "#aaaaaa", borderColor: "#111111" }}
+                  >
+                    {n.peakPlayers}
+                    //TODO: Peak Players
+                  </TableCell> */}
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </Paper>
